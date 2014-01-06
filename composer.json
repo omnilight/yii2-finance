@@ -16,6 +16,10 @@
         "omnilight/yz2": "dev-master"
     },
     "autoload": {
-        "psr-4": { "yz\\finance\\": "" }
+        "psr-0": { "yz\\finance\\": "" }
+    },
+    "target-dir": "yz\\finance",
+    "extra": {
+        "bootstrap": "yz\\finance\\Extension"
     }
 }
