@@ -1,0 +1,21 @@
+{
+    "name": "marketingsolutions/finance",
+    "description": "Finances management extension",
+    "keywords": ["yii", "users"],
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Pavel Agalecky",
+            "email": "pavel.agalecky@gmail.com"
+        }
+    ],
+    "type": "yii2-extension",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "dev-master",
+        "omnilight/yz2": "dev-master"
+    },
+    "autoload": {
+        "psr-4": { "yz\\finance\\": "" }
+    }
+}
