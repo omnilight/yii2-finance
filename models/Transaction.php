@@ -62,6 +62,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 	public function rules()
 	{
 		return [
+			[['purse_id','type','amount','partner_type'], 'required'],
 			[['purse_id', 'partner_id'], 'integer'],
 			[['type'], 'string'],
 			[['amount', 'balance_before', 'balance_after'], 'integer'],
@@ -136,6 +137,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 
 		if ($insert) {
 			$this->purse->balance = $this->getPurseNewBalance();
+			$this->purse->update();
 		}
 	}
 

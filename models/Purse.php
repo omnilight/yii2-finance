@@ -162,10 +162,10 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 		$transaction->purse_id = $this->id;
 
 		if ($save) {
-			$transaction->save();
+			return $transaction->save();
 		}
 
-		return $this;
+		return true;
 	}
 
 	/**
