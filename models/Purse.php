@@ -5,6 +5,7 @@ namespace yz\finance\models;
 use yii\base\Exception;
 use yii\base\ModelEvent;
 use yii\behaviors\AutoTimestamp;
+use yii\db\Expression;
 use yz\admin\models\AdminableInterface;
 
 /**
@@ -98,7 +99,8 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 				'attributes' => [
 					\yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'created_on',
 					\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_on',
-				]
+				],
+				'timestamp' => new Expression('NOW()'),
 			]
 		];
 	}
@@ -164,5 +166,23 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Returns title for partner
+	 * @return string
+	 */
+	public function getTitleForTransaction()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Returns type of the partner
+	 * @return string
+	 */
+	public function getTypeForTransaction()
+	{
+		return \Yii::t('yz/finance','Purse');
 	}
 }

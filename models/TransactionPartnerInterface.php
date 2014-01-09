@@ -20,4 +20,16 @@ interface TransactionPartnerInterface
 	 * @return $this
 	 */
 	public static function findById($id);
+
+	/**
+	 * Returns title for partner
+	 * @return string
+	 */
+	public function getTitleForTransaction();
+
+	/**
+	 * Returns type of the partner
+	 * @return string
+	 */
+	public function getTypeForTransaction();
 } 

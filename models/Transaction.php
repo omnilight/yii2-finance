@@ -97,7 +97,8 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 				'class' => AutoTimestamp::className(),
 				'attributes' => [
 					ActiveRecord::EVENT_BEFORE_INSERT => 'created_on',
-				]
+				],
+				'timestamp' => new Expression('NOW()'),
 			]
 		];
 	}

@@ -11,7 +11,7 @@ class m140105_125949_finance_init extends \yii\db\Migration
 			'owner_type' => 'string',
 			'owner_id' => 'integer',
 			'title' => 'string(128)',
-			'balance' => 'bigint',
+			'balance' => 'bigint DEFAULT 0',
 			'created_on' => 'datetime',
 			'updated_on' => 'datetime',
 		], 'ENGINE=InnoDB CHARSET=utf8');
