@@ -2,8 +2,7 @@
 
 namespace yz\finance\models;
 
-use yii\base\ModelEvent;
-use yii\behaviors\AutoTimestamp;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yz\admin\models\AdminableInterface;
@@ -39,22 +38,22 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 	}
 
 	/**
-     * Returns model title, ex.: 'Person', 'Book'
-     * @return string
-     */
-    public static function modelTitle()
-    {
-        return \Yii::t('yz/finance', 'Transaction');
-    }
+	 * Returns model title, ex.: 'Person', 'Book'
+	 * @return string
+	 */
+	public static function modelTitle()
+	{
+		return \Yii::t('yz/finance', 'Transaction');
+	}
 
-    /**
-     * Returns plural form of the model title, ex.: 'Persons', 'Books'
-     * @return string
-     */
-    public static function modelTitlePlural()
-    {
-        return \Yii::t('yz/finance', 'Transactions');
-    }
+	/**
+	 * Returns plural form of the model title, ex.: 'Persons', 'Books'
+	 * @return string
+	 */
+	public static function modelTitlePlural()
+	{
+		return \Yii::t('yz/finance', 'Transactions');
+	}
 
 	/**
 	 * @inheritdoc
@@ -62,7 +61,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 	public function rules()
 	{
 		return [
-			[['purse_id','type','amount','partner_type'], 'required'],
+			[['purse_id', 'type', 'amount', 'partner_type'], 'required'],
 			[['purse_id', 'partner_id'], 'integer'],
 			[['type'], 'string'],
 			[['amount', 'balance_before', 'balance_after'], 'integer'],
@@ -78,16 +77,16 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 	public function attributeLabels()
 	{
 		return [
-			'id' => \Yii::t('yz/finance','ID'),
-			'purse_id' => \Yii::t('yz/finance','Purse ID'),
-			'type' => \Yii::t('yz/finance','Type'),
-			'amount' => \Yii::t('yz/finance','Amount'),
-			'partner_type' => \Yii::t('yz/finance','Partner Type'),
-			'partner_id' => \Yii::t('yz/finance','Partner ID'),
-			'title' => \Yii::t('yz/finance','Title'),
-			'comment' => \Yii::t('yz/finance','Comment'),
-			'created_on' => \Yii::t('yz/finance','Created On'),
-			'purse' => \Yii::t('yz/finance','Purse'),
+			'id' => \Yii::t('yz/finance', 'ID'),
+			'purse_id' => \Yii::t('yz/finance', 'Purse ID'),
+			'type' => \Yii::t('yz/finance', 'Type'),
+			'amount' => \Yii::t('yz/finance', 'Amount'),
+			'partner_type' => \Yii::t('yz/finance', 'Partner Type'),
+			'partner_id' => \Yii::t('yz/finance', 'Partner ID'),
+			'title' => \Yii::t('yz/finance', 'Title'),
+			'comment' => \Yii::t('yz/finance', 'Comment'),
+			'created_on' => \Yii::t('yz/finance', 'Created On'),
+			'purse' => \Yii::t('yz/finance', 'Purse'),
 		];
 	}
 
@@ -95,17 +94,17 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 	{
 		return [
 			'timestamp' => [
-				'class' => AutoTimestamp::className(),
+				'class' => TimestampBehavior::className(),
 				'attributes' => [
 					ActiveRecord::EVENT_BEFORE_INSERT => 'created_on',
 				],
-				'timestamp' => new Expression('NOW()'),
+				'value' => new Expression('NOW()'),
 			]
 		];
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQueryInterface
 	 */
 	public function getPurse()
 	{
@@ -147,12 +146,12 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 		if ($this->type == self::OUTBOUND) {
 			$newBalance = $this->getPurseNewBalance();
 			if ($newBalance < 0)
-				$this->addError('amount', \Yii::t('yz/finance','Balance of the purse is not enough'));
+				$this->addError('amount', \Yii::t('yz/finance', 'Balance of the purse is not enough'));
 		}
 	}
 
 	protected function getPurseNewBalance()
 	{
-		return $this->purse->balance + (($this->type == self::INCOMING)?1:-1) * $this->amount;
+		return $this->purse->balance + (($this->type == self::INCOMING) ? 1 : -1) * $this->amount;
 	}
 }
