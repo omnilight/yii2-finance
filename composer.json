@@ -20,6 +20,6 @@
     },
     "target-dir": "yz\\finance",
     "extra": {
-        "bootstrap": "yz\\finance\\Extension"
+        "bootstrap": "yz\\finance\\Bootstrap"
     }
 }
