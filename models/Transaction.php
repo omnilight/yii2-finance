@@ -20,7 +20,7 @@ use yz\admin\models\AdminableInterface;
  * @property integer $partner_id
  * @property string $title
  * @property string $comment
- * @property string $created_on
+ * @property string $created_at
  *
  * @property Purse $purse
  */
@@ -65,7 +65,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 			[['purse_id', 'partner_id'], 'integer'],
 			[['type'], 'string'],
 			[['amount', 'balance_before', 'balance_after'], 'integer'],
-			[['created_on'], 'safe'],
+			[['created_at'], 'safe'],
 			[['partner_type', 'comment'], 'string', 'max' => 255],
 			[['title'], 'string', 'max' => 128]
 		];
@@ -85,7 +85,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 			'partner_id' => \Yii::t('yz/finance', 'Partner ID'),
 			'title' => \Yii::t('yz/finance', 'Title'),
 			'comment' => \Yii::t('yz/finance', 'Comment'),
-			'created_on' => \Yii::t('yz/finance', 'Created On'),
+			'created_at' => \Yii::t('yz/finance', 'Created On'),
 			'purse' => \Yii::t('yz/finance', 'Purse'),
 		];
 	}
@@ -96,7 +96,7 @@ class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
 			'timestamp' => [
 				'class' => TimestampBehavior::className(),
 				'attributes' => [
-					ActiveRecord::EVENT_BEFORE_INSERT => 'created_on',
+					ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
 				],
 				'value' => new Expression('NOW()'),
 			]

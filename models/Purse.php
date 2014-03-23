@@ -15,12 +15,12 @@ use yz\admin\models\AdminableInterface;
  * @property integer $owner_id
  * @property string $title
  * @property integer $balance
- * @property string $created_on
- * @property string $updated_on
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Transaction[] $purseTransactions
  */
-class Purse extends \yz\db\ActiveRecord implements AdminableInterface, TransactionPartnerInterface
+class Purse extends \yz\db\ActiveRecord implements TransactionPartnerInterface
 {
 	const EVENT_BEFORE_BALANCE_CHANGE = 'beforeBalanceChange';
 	const EVENT_AFTER_BALANCE_CHANGE = 'afterBalanceChange';
@@ -59,7 +59,7 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 		return [
 			[['owner_id'], 'integer'],
 			[['balance'], 'number'],
-			[['created_on', 'updated_on'], 'safe'],
+			[['created_at', 'updated_at'], 'safe'],
 			[['owner_type'], 'string', 'max' => 255],
 			[['title'], 'string', 'max' => 128]
 		];
@@ -84,8 +84,8 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 			'owner_id' => \Yii::t('yz/finance', 'Owner ID'),
 			'title' => \Yii::t('yz/finance', 'Title'),
 			'balance' => \Yii::t('yz/finance', 'Balance'),
-			'created_on' => \Yii::t('yz/finance', 'Created On'),
-			'updated_on' => \Yii::t('yz/finance', 'Updated On'),
+			'created_at' => \Yii::t('yz/finance', 'Created On'),
+			'updated_at' => \Yii::t('yz/finance', 'Updated On'),
 			'purseTransactions' => \Yii::t('yz/finance', 'Transactions'),
 		];
 	}
@@ -95,10 +95,6 @@ class Purse extends \yz\db\ActiveRecord implements AdminableInterface, Transacti
 		return [
 			'timestamp' => [
 				'class' => TimestampBehavior::className(),
-				'attributes' => [
-					\yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'created_on',
-					\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_on',
-				],
 				'value' => new Expression('NOW()'),
 			]
 		];

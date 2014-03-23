@@ -12,8 +12,8 @@ class m140105_125949_finance_init extends \yii\db\Migration
 			'owner_id' => 'integer',
 			'title' => 'string(128)',
 			'balance' => 'bigint DEFAULT 0',
-			'created_on' => 'datetime',
-			'updated_on' => 'datetime',
+			'created_at' => 'datetime',
+			'updated_at' => 'datetime',
 		], 'ENGINE=InnoDB CHARSET=utf8');
 
 		$this->createIndex('finance_purses__owner','{{%finance_purses}}','owner_type, owner_id');
@@ -29,7 +29,7 @@ class m140105_125949_finance_init extends \yii\db\Migration
 			'partner_id' => 'integer',
 			'title' => 'string(128)',
 			'comment' => 'string',
-			'created_on' => 'datetime',
+			'created_at' => 'datetime',
 		], 'ENGINE=InnoDB CHARSET=utf8');
 
 		$this->createIndex('finance_transactions__partner','{{%finance_transactions}}','partner_type, partner_id');
