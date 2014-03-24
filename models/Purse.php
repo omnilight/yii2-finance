@@ -5,7 +5,7 @@ namespace yz\finance\models;
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
-use yz\admin\models\AdminableInterface;
+use yz\interfaces\ModelInfoInterface;
 
 /**
  * This is the model class for table "yz_finance_purses".
@@ -20,7 +20,7 @@ use yz\admin\models\AdminableInterface;
  *
  * @property Transaction[] $purseTransactions
  */
-class Purse extends \yz\db\ActiveRecord implements TransactionPartnerInterface
+class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, TransactionPartnerInterface
 {
 	const EVENT_BEFORE_BALANCE_CHANGE = 'beforeBalanceChange';
 	const EVENT_AFTER_BALANCE_CHANGE = 'afterBalanceChange';

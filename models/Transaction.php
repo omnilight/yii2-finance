@@ -5,7 +5,7 @@ namespace yz\finance\models;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
-use yz\admin\models\AdminableInterface;
+use yz\interfaces\ModelInfoInterface;
 
 /**
  * This is the model class for table "yz_finance_transactions".
@@ -24,7 +24,7 @@ use yz\admin\models\AdminableInterface;
  *
  * @property Purse $purse
  */
-class Transaction extends \yz\db\ActiveRecord implements AdminableInterface
+class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 {
 	const INCOMING = 'in';
 	const OUTBOUND = 'out';
