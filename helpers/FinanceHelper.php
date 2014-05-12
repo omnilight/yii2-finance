@@ -12,11 +12,11 @@ class FinanceHelper
     /**
      * @param string $amount
      * @param int $divisor
-     * @return string
+     * @return float
      */
     public static function fromPence($amount, $divisor = 100)
     {
-        return (int)ceil($amount / $divisor);
+        return $amount / $divisor;
     }
 
     /**
