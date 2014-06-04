@@ -17,7 +17,7 @@ class Bootstrap implements BootstrapInterface
     {
         $app->i18n->translations['yz/finance'] = [
             'class' => 'yii\i18n\PhpMessageSource',
-            'basePath' => '@yz/finance',
+            'basePath' => '@yz/finance/messages',
             'sourceLanguage' => 'en-US',
         ];
     }

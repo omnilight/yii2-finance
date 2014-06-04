@@ -19,6 +19,7 @@ use yz\interfaces\ModelInfoInterface;
  * @property string $updated_at
  *
  * @property Transaction[] $purseTransactions
+ * @property PurseOwnerInterface $owner
  */
 class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, TransactionPartnerInterface
 {
@@ -180,4 +181,13 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
 	{
 		return \Yii::t('yz/finance', 'Purse');
 	}
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOwner()
+    {
+        $ownerClass = $this->owner_type;
+        return $this->hasOne($ownerClass, [call_user_func([$ownerClass, 'primaryKey'])[0] => 'owner_id']);
+    }
 }

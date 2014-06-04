@@ -67,9 +67,17 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 			[['amount', 'balance_before', 'balance_after'], 'integer'],
 			[['created_at'], 'safe'],
 			[['partner_type', 'comment'], 'string', 'max' => 255],
-			[['title'], 'string', 'max' => 128]
+			[['title'], 'string', 'max' => 128],
+
+            [['amount'], 'validateAmount'],
 		];
 	}
+
+    public function validateAmount()
+    {
+        if ($this->purse && $this->type == self::INCOMING && $this->purse->balance < $this->amount)
+            $this->addError('amount',\Yii::t('yz/finance','Объем исходящей транзакции должен быть меньше или равен баланса кошелька'));
+    }
 
 	/**
 	 * @inheritdoc
@@ -87,6 +95,8 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 			'comment' => \Yii::t('yz/finance', 'Comment'),
 			'created_at' => \Yii::t('yz/finance', 'Created On'),
 			'purse' => \Yii::t('yz/finance', 'Purse'),
+			'balance_before' => \Yii::t('yz/finance', 'Balance after'),
+			'balance_after' => \Yii::t('yz/finance', 'Balance before'),
 		];
 	}
 
@@ -140,6 +150,16 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 		}
 	}
 
+    /**
+     * @return array
+     */
+    public static function getTypeValues()
+    {
+        return [
+            self::INCOMING => \Yii::t('yz/finance','Incoming transaction'),
+            self::OUTBOUND => \Yii::t('yz/finance','Outbound transaction'),
+        ];
+    }
 
 	protected function validatePurse()
 	{
