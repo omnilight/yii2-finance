@@ -75,8 +75,8 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 
     public function validateAmount()
     {
-        if ($this->purse && $this->type == self::INCOMING && $this->purse->balance < $this->amount)
-            $this->addError('amount',\Yii::t('yz/finance','Объем исходящей транзакции должен быть меньше или равен баланса кошелька'));
+        if ($this->isNewRecord && $this->purse && $this->getPurseNewBalance() < 0)
+            $this->addError('amount',\Yii::t('yz/finance','Outbound transaction amount should be less or equal to the purse\'s balance'));
     }
 
 	/**
@@ -121,15 +121,6 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 		return $this->hasOne(Purse::className(), ['id' => 'purse_id']);
 	}
 
-	public function afterValidate()
-	{
-		parent::afterValidate();
-
-		if ($this->isNewRecord)
-			$this->validatePurse();
-	}
-
-
 	public function beforeSave($insert)
 	{
 		if ($insert) {
@@ -160,15 +151,6 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
             self::OUTBOUND => \Yii::t('yz/finance','Outbound transaction'),
         ];
     }
-
-	protected function validatePurse()
-	{
-		if ($this->type == self::OUTBOUND) {
-			$newBalance = $this->getPurseNewBalance();
-			if ($newBalance < 0)
-				$this->addError('amount', \Yii::t('yz/finance', 'Balance of the purse is not enough'));
-		}
-	}
 
 	protected function getPurseNewBalance()
 	{

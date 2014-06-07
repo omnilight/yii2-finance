@@ -4,6 +4,8 @@ namespace yz\finance\models;
 
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\db\Expression;
 use yz\interfaces\ModelInfoInterface;
 
@@ -21,7 +23,7 @@ use yz\interfaces\ModelInfoInterface;
  * @property Transaction[] $purseTransactions
  * @property PurseOwnerInterface $owner
  */
-class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, TransactionPartnerInterface
+class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, TransactionPartnerInterface, PurseInterface
 {
 	const EVENT_BEFORE_BALANCE_CHANGE = 'beforeBalanceChange';
 	const EVENT_AFTER_BALANCE_CHANGE = 'afterBalanceChange';
@@ -187,7 +189,8 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      */
     public function getOwner()
     {
+        /** @var ActiveRecordInterface $ownerClass */
         $ownerClass = $this->owner_type;
-        return $this->hasOne($ownerClass, [call_user_func([$ownerClass, 'primaryKey'])[0] => 'owner_id']);
+        return $this->hasOne($ownerClass, [$ownerClass::primaryKey()[0] => 'owner_id']);
     }
 }

@@ -10,7 +10,7 @@ namespace yz\finance\models;
 
 /**
  * Interface PurseOwnerInterface
- * @property Purse $purse Purse of the owner
+ * @property PurseInterface $purse Purse of the owner
  * @package ms\finance\models
  */
 interface PurseOwnerInterface
