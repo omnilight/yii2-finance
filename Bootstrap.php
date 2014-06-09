@@ -21,6 +21,4 @@ class Bootstrap implements BootstrapInterface
             'sourceLanguage' => 'en-US',
         ];
     }
-
-
-} 
+}
