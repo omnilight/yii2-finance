@@ -14,8 +14,6 @@ use yii\db\ActiveRecord;
 /**
  * Class PurseOwnerTrait
  * @property Purse $purse
- * @method string className()
- * @method array|string getPrimaryKey(bool $asArray)
  * @package yz\finance\models
  */
 trait PurseOwnerTrait
