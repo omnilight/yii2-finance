@@ -131,9 +131,9 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 		return parent::beforeSave($insert);
 	}
 
-	public function afterSave($insert)
+	public function afterSave($insert, $changedAttributes)
 	{
-		parent::afterSave($insert);
+		parent::afterSave($insert, $changedAttributes);
 
 		if ($insert) {
 			$this->purse->balance = $this->getPurseNewBalance();

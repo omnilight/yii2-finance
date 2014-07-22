@@ -132,9 +132,9 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
 	}
 
 
-	public function afterSave($insert)
+	public function afterSave($insert, $changedAttributes)
 	{
-		parent::afterSave($insert);
+		parent::afterSave($insert, $changedAttributes);
 
 		if ($this->balance != $this->getOldAttribute('balance')) {
 			$this->trigger(self::EVENT_AFTER_BALANCE_CHANGE);
