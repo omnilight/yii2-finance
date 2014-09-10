@@ -1,6 +1,6 @@
 <?php
 
-namespace yz\finance\models;
+namespace omnilight\finance\models;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

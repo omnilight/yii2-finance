@@ -6,7 +6,7 @@
  * Time: 17:25
  */
 
-namespace yz\finance\models;
+namespace omnilight\finance\models;
 
 /**
  * Interface PurseOwnerInterface

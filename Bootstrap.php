@@ -1,7 +1,7 @@
 <?php
 
-namespace yz\finance;
-use yii\base\Application;
+namespace omnilight\finance;
+
 use yii\base\BootstrapInterface;
 
 

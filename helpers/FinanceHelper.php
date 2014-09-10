@@ -1,6 +1,6 @@
 <?php
 
-namespace yz\finance\helpers;
+namespace omnilight\finance\helpers;
 
 
 /**

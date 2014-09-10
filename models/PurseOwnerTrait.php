@@ -6,7 +6,7 @@
  * Time: 14:17
  */
 
-namespace yz\finance\models;
+namespace omnilight\finance\models;
 
 
 use yii\db\ActiveRecord;

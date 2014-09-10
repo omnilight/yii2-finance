@@ -1,10 +1,9 @@
 <?php
 
-namespace yz\finance\models;
+namespace omnilight\finance\models;
 
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\Expression;
 use yz\interfaces\ModelInfoInterface;

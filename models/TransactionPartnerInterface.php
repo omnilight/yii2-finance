@@ -6,7 +6,7 @@
  * Time: 17:27
  */
 
-namespace yz\finance\models;
+namespace omnilight\finance\models;
 
 /**
  * Interface TransactionPartnerInterface
