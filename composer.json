@@ -19,6 +19,6 @@
         "psr-4": { "omnilight\\finance\\": "" }
     },
     "extra": {
-        "bootstrap": "yz\\finance\\Bootstrap"
+        "bootstrap": "omnilight\\finance\\Bootstrap"
     }
 }
