@@ -1,6 +1,6 @@
 {
     "name": "omnilight/yii2-finance",
-    "description": "Finances management extension",
+    "description": "Finances management extension for Yii2 framework. Provides purses and transactions classes",
     "keywords": ["yii2", "finance"],
     "minimum-stability": "dev",
     "authors": [
