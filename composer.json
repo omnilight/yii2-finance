@@ -1,7 +1,7 @@
 {
     "name": "omnilight/yii2-finance",
     "description": "Finances management extension",
-    "keywords": ["yii", "users"],
+    "keywords": ["yii2", "finance"],
     "minimum-stability": "dev",
     "authors": [
         {
