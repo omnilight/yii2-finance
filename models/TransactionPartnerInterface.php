@@ -21,6 +21,12 @@ interface TransactionPartnerInterface
 	 */
 	public static function findById($id);
 
+    /**
+     * Returns id of the partner. Could NULL if partner does not support id
+     * @return int|string
+     */
+    public function getId();
+
 	/**
 	 * Returns title for partner
 	 * @return string

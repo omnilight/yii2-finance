@@ -26,120 +26,34 @@ use yz\interfaces\ModelInfoInterface;
  */
 class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 {
-	const INCOMING = 'in';
-	const OUTBOUND = 'out';
+    const INCOMING = 'in';
+    const OUTBOUND = 'out';
 
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return '{{%finance_transactions}}';
-	}
-
-	/**
-	 * Returns model title, ex.: 'Person', 'Book'
-	 * @return string
-	 */
-	public static function modelTitle()
-	{
-		return \Yii::t('yz/finance', 'Transaction');
-	}
-
-	/**
-	 * Returns plural form of the model title, ex.: 'Persons', 'Books'
-	 * @return string
-	 */
-	public static function modelTitlePlural()
-	{
-		return \Yii::t('yz/finance', 'Transactions');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['purse_id', 'type', 'amount', 'partner_type'], 'required'],
-			[['purse_id', 'partner_id'], 'integer'],
-			[['type'], 'string'],
-			[['amount', 'balance_before', 'balance_after'], 'integer'],
-			[['created_at'], 'safe'],
-			[['partner_type', 'comment'], 'string', 'max' => 255],
-			[['title'], 'string', 'max' => 128],
-
-            [['amount'], 'validateAmount'],
-		];
-	}
-
-    public function validateAmount()
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
     {
-        if ($this->isNewRecord && $this->purse && $this->getPurseNewBalance() < 0)
-            $this->addError('amount',\Yii::t('yz/finance','Outbound transaction amount should be less or equal to the purse\'s balance'));
+        return '{{%finance_transactions}}';
     }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id' => \Yii::t('yz/finance', 'ID'),
-			'purse_id' => \Yii::t('yz/finance', 'Purse ID'),
-			'type' => \Yii::t('yz/finance', 'Type'),
-			'amount' => \Yii::t('yz/finance', 'Amount'),
-			'partner_type' => \Yii::t('yz/finance', 'Partner Type'),
-			'partner_id' => \Yii::t('yz/finance', 'Partner ID'),
-			'title' => \Yii::t('yz/finance', 'Title'),
-			'comment' => \Yii::t('yz/finance', 'Comment'),
-			'created_at' => \Yii::t('yz/finance', 'Created On'),
-			'purse' => \Yii::t('yz/finance', 'Purse'),
-			'balance_before' => \Yii::t('yz/finance', 'Balance after'),
-			'balance_after' => \Yii::t('yz/finance', 'Balance before'),
-		];
-	}
+    /**
+     * Returns model title, ex.: 'Person', 'Book'
+     * @return string
+     */
+    public static function modelTitle()
+    {
+        return \Yii::t('yz/finance', 'Transaction');
+    }
 
-	public function behaviors()
-	{
-		return [
-			'timestamp' => [
-				'class' => TimestampBehavior::className(),
-				'attributes' => [
-					ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
-				],
-				'value' => new Expression('NOW()'),
-			]
-		];
-	}
-
-	/**
-	 * @return \yii\db\ActiveQueryInterface
-	 */
-	public function getPurse()
-	{
-		return $this->hasOne(Purse::className(), ['id' => 'purse_id']);
-	}
-
-	public function beforeSave($insert)
-	{
-		if ($insert) {
-			$this->balance_before = $this->purse->balance;
-			$this->balance_after = $this->getPurseNewBalance();
-		}
-
-		return parent::beforeSave($insert);
-	}
-
-	public function afterSave($insert, $changedAttributes)
-	{
-		parent::afterSave($insert, $changedAttributes);
-
-		if ($insert) {
-			$this->purse->balance = $this->getPurseNewBalance();
-			$this->purse->update();
-		}
-	}
+    /**
+     * Returns plural form of the model title, ex.: 'Persons', 'Books'
+     * @return string
+     */
+    public static function modelTitlePlural()
+    {
+        return \Yii::t('yz/finance', 'Transactions');
+    }
 
     /**
      * @return array
@@ -147,13 +61,120 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
     public static function getTypeValues()
     {
         return [
-            self::INCOMING => \Yii::t('yz/finance','Incoming transaction'),
-            self::OUTBOUND => \Yii::t('yz/finance','Outbound transaction'),
+            self::INCOMING => \Yii::t('yz/finance', 'Incoming transaction'),
+            self::OUTBOUND => \Yii::t('yz/finance', 'Outbound transaction'),
         ];
     }
 
-	protected function getPurseNewBalance()
-	{
-		return $this->purse->balance + (($this->type == self::INCOMING) ? 1 : -1) * $this->amount;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['purse_id', 'type', 'amount', 'partner_type'], 'required'],
+            [['purse_id', 'partner_id'], 'integer'],
+            [['type'], 'in', 'range' => array_keys(self::getTypeValues())],
+            [['amount', 'balance_before', 'balance_after'], 'integer'],
+            [['created_at'], 'safe'],
+            [['partner_type', 'comment'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 128],
+
+            [['amount'], 'validateAmount'],
+        ];
+    }
+
+    public function validateAmount()
+    {
+        if ($this->isNewRecord && $this->purse && $this->getPurseNewBalance() < 0)
+            $this->addError('amount', \Yii::t('yz/finance', 'Outbound transaction amount should be less or equal to the purse\'s balance'));
+    }
+
+    protected function getPurseNewBalance()
+    {
+        return $this->purse->balance + (($this->type == self::INCOMING) ? 1 : -1) * $this->amount;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => \Yii::t('yz/finance', 'ID'),
+            'purse_id' => \Yii::t('yz/finance', 'Purse ID'),
+            'type' => \Yii::t('yz/finance', 'Type'),
+            'amount' => \Yii::t('yz/finance', 'Amount'),
+            'partner_type' => \Yii::t('yz/finance', 'Partner Type'),
+            'partner_id' => \Yii::t('yz/finance', 'Partner ID'),
+            'title' => \Yii::t('yz/finance', 'Title'),
+            'comment' => \Yii::t('yz/finance', 'Comment'),
+            'created_at' => \Yii::t('yz/finance', 'Created On'),
+            'purse' => \Yii::t('yz/finance', 'Purse'),
+            'balance_before' => \Yii::t('yz/finance', 'Balance after'),
+            'balance_after' => \Yii::t('yz/finance', 'Balance before'),
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                ],
+                'value' => new Expression('NOW()'),
+            ]
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQueryInterface
+     */
+    public function getPurse()
+    {
+        return $this->hasOne(Purse::className(), ['id' => 'purse_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->balance_before = $this->purse->balance;
+            $this->balance_after = $this->getPurseNewBalance();
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+            $this->purse->balance = $this->getPurseNewBalance();
+            $this->purse->update();
+        }
+    }
+
+    /**
+     * @param string $type
+     * @param int $amount
+     * @param TransactionPartnerInterface $partner
+     * @param string $title
+     * @param string $comment
+     * @return \omnilight\finance\models\Transaction
+     */
+    public static function factory($type, $amount, $partner, $title = '', $comment = '')
+    {
+        $transaction = new self;
+        $transaction->type = $type;
+        $transaction->amount = $amount;
+        $transaction->partner_type = get_class($partner);
+        $transaction->partner_id = $partner->getId();
+        $transaction->title = $title;
+        $transaction->comment = $comment;
+
+        return $transaction;
+    }
 }

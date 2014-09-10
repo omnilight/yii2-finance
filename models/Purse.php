@@ -212,4 +212,13 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
     {
         return $this->balance;
     }
+
+    /**
+     * Returns id of the partner. Could NULL if partner does not support id
+     * @return int|string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

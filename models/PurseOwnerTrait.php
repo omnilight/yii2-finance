@@ -10,7 +10,6 @@ namespace omnilight\finance\models;
 
 
 use yii\db\ActiveRecord;
-use yz\finance\models\Purse;
 
 /**
  * Class PurseOwnerTrait
@@ -46,4 +45,4 @@ trait PurseOwnerTrait
         return $this->hasOne(Purse::className(), ['owner_id' => 'id'])
             ->where('owner_type = :type', [':type' => self::className()]);
     }
-} 
+}
