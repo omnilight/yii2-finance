@@ -4,6 +4,7 @@ namespace omnilight\finance\models;
 
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 use yii\db\Expression;
 use yz\interfaces\ModelInfoInterface;
@@ -24,164 +25,175 @@ use yz\interfaces\ModelInfoInterface;
  */
 class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, TransactionPartnerInterface, PurseInterface
 {
-	const EVENT_BEFORE_BALANCE_CHANGE = 'beforeBalanceChange';
-	const EVENT_AFTER_BALANCE_CHANGE = 'afterBalanceChange';
+    const EVENT_BEFORE_BALANCE_CHANGE = 'beforeBalanceChange';
+    const EVENT_AFTER_BALANCE_CHANGE = 'afterBalanceChange';
 
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return '{{%finance_purses}}';
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%finance_purses}}';
+    }
 
-	/**
-	 * Returns model title, ex.: 'Person', 'Book'
-	 * @return string
-	 */
-	public static function modelTitle()
-	{
-		return \Yii::t('yz/finance', 'Purse');
-	}
+    /**
+     * Returns model title, ex.: 'Person', 'Book'
+     * @return string
+     */
+    public static function modelTitle()
+    {
+        return \Yii::t('yz/finance', 'Purse');
+    }
 
-	/**
-	 * Returns plural form of the model title, ex.: 'Persons', 'Books'
-	 * @return string
-	 */
-	public static function modelTitlePlural()
-	{
-		return \Yii::t('yz/finance', 'Purses');
-	}
+    /**
+     * Returns plural form of the model title, ex.: 'Persons', 'Books'
+     * @return string
+     */
+    public static function modelTitlePlural()
+    {
+        return \Yii::t('yz/finance', 'Purses');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['owner_id'], 'integer'],
-			[['balance'], 'number'],
-			[['created_at', 'updated_at'], 'safe'],
-			[['owner_type'], 'string', 'max' => 255],
-			[['title'], 'string', 'max' => 128]
-		];
-	}
+    /**
+     * Returns partner for some transaction by partner's id
+     * @param int $id
+     * @return $this
+     */
+    public static function findById($id)
+    {
+        return self::find($id);
+    }
 
-	public function scenarios()
-	{
-		return array_merge(parent::scenarios(), [
+    /**
+     * @param ActiveRecord $owner
+     * @param string $title
+     * @return \yz\finance\models\Purse
+     */
+    public static function create($owner, $title)
+    {
+        $purse = new self;
+        $purse->title = $title;
+        $purse->owner_type = $owner->className();
+        $purse->owner_id = $owner->getPrimaryKey();
+        $purse->save();
+        return $purse;
+    }
 
-		]);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['owner_id'], 'integer'],
+            [['balance'], 'number'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['owner_type'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 128]
+        ];
+    }
 
+    public function scenarios()
+    {
+        return array_merge(parent::scenarios(), [
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id' => \Yii::t('yz/finance', 'ID'),
-			'owner_type' => \Yii::t('yz/finance', 'Owner Type'),
-			'owner_id' => \Yii::t('yz/finance', 'Owner ID'),
-			'title' => \Yii::t('yz/finance', 'Title'),
-			'balance' => \Yii::t('yz/finance', 'Balance'),
-			'created_at' => \Yii::t('yz/finance', 'Created On'),
-			'updated_at' => \Yii::t('yz/finance', 'Updated On'),
-			'purseTransactions' => \Yii::t('yz/finance', 'Transactions'),
-		];
-	}
+        ]);
+    }
 
-	public function behaviors()
-	{
-		return [
-			'timestamp' => [
-				'class' => TimestampBehavior::className(),
-				'value' => new Expression('NOW()'),
-			]
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => \Yii::t('yz/finance', 'ID'),
+            'owner_type' => \Yii::t('yz/finance', 'Owner Type'),
+            'owner_id' => \Yii::t('yz/finance', 'Owner ID'),
+            'title' => \Yii::t('yz/finance', 'Title'),
+            'balance' => \Yii::t('yz/finance', 'Balance'),
+            'created_at' => \Yii::t('yz/finance', 'Created On'),
+            'updated_at' => \Yii::t('yz/finance', 'Updated On'),
+            'purseTransactions' => \Yii::t('yz/finance', 'Transactions'),
+        ];
+    }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
+            ]
+        ];
+    }
 
-	/**
-	 * @return \yii\db\ActiveQueryInterface
-	 */
-	public function getPurseTransactions()
-	{
-		return $this->hasMany(Transaction::className(), ['purse_id' => 'id']);
-	}
+    /**
+     * @return \yii\db\ActiveQueryInterface
+     */
+    public function getPurseTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['purse_id' => 'id']);
+    }
 
-	/**
-	 * Returns partner for some transaction by partner's id
-	 * @param int $id
-	 * @return $this
-	 */
-	public static function findById($id)
-	{
-		return self::find($id);
-	}
+    public function beforeSave($insert)
+    {
+        if ($this->balance != $this->getOldAttribute('balance')) {
+            $this->trigger(self::EVENT_BEFORE_BALANCE_CHANGE);
+        }
 
-	public function beforeSave($insert)
-	{
-		if ($this->balance != $this->getOldAttribute('balance')) {
-			$this->trigger(self::EVENT_BEFORE_BALANCE_CHANGE);
-		}
+        return parent::beforeSave($insert);
+    }
 
-		return parent::beforeSave($insert);
-	}
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
 
+        if ($this->balance != $this->getOldAttribute('balance')) {
+            $this->trigger(self::EVENT_AFTER_BALANCE_CHANGE);
+        }
+    }
 
-	public function afterSave($insert, $changedAttributes)
-	{
-		parent::afterSave($insert, $changedAttributes);
+    /**
+     * Adds transaction to the purse. Note: purse balance is changed via transaction save() method.
+     * @param Transaction $transaction
+     * @param bool $save Whether to save transaction
+     * @throws \yii\base\Exception
+     * @return $this
+     */
+    public function addTransaction($transaction, $save = true)
+    {
+        if ($this->isNewRecord)
+            throw new Exception('Purse must be saved before it can have transactions');
 
-		if ($this->balance != $this->getOldAttribute('balance')) {
-			$this->trigger(self::EVENT_AFTER_BALANCE_CHANGE);
-		}
-	}
+        if ($transaction->isNewRecord == false)
+            throw new Exception('Passed transaction is not new and can not be added to the purse');
 
+        $transaction->purse_id = $this->id;
 
-	/**
-	 * Adds transaction to the purse. Note: purse balance is changed via transaction save() method.
-	 * @param Transaction $transaction
-	 * @param bool $save Whether to save transaction
-	 * @throws \yii\base\Exception
-	 * @return $this
-	 */
-	public function addTransaction($transaction, $save = true)
-	{
-		if ($this->isNewRecord)
-			throw new Exception('Purse must be saved before it can have transactions');
+        if ($save) {
+            return $transaction->save();
+        }
 
-		if ($transaction->isNewRecord == false)
-			throw new Exception('Passed transaction is not new and can not be added to the purse');
+        return true;
+    }
 
-		$transaction->purse_id = $this->id;
+    /**
+     * Returns title for partner
+     * @return string
+     */
+    public function getTitleForTransaction()
+    {
+        return $this->title;
+    }
 
-		if ($save) {
-			return $transaction->save();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns title for partner
-	 * @return string
-	 */
-	public function getTitleForTransaction()
-	{
-		return $this->title;
-	}
-
-	/**
-	 * Returns type of the partner
-	 * @return string
-	 */
-	public function getTypeForTransaction()
-	{
-		return \Yii::t('yz/finance', 'Purse');
-	}
+    /**
+     * Returns type of the partner
+     * @return string
+     */
+    public function getTypeForTransaction()
+    {
+        return \Yii::t('yz/finance', 'Purse');
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -191,5 +203,13 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
         /** @var ActiveRecordInterface $ownerClass */
         $ownerClass = $this->owner_type;
         return $this->hasOne($ownerClass, [$ownerClass::primaryKey()[0] => 'owner_id']);
+    }
+
+    /**
+     * @return int
+     */
+    public function getBalance()
+    {
+        return $this->balance;
     }
 }

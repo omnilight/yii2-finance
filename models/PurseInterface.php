@@ -23,4 +23,9 @@ interface PurseInterface
      * @return bool
      */
     public function addTransaction($transaction, $save = true);
+
+    /**
+     * @return int
+     */
+    public function getBalance();
 } 

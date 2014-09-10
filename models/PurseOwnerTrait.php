@@ -10,6 +10,7 @@ namespace omnilight\finance\models;
 
 
 use yii\db\ActiveRecord;
+use yz\finance\models\Purse;
 
 /**
  * Class PurseOwnerTrait
@@ -23,12 +24,7 @@ trait PurseOwnerTrait
         /**
          * @var ActiveRecord $this
          */
-        $purse = new Purse();
-        $purse->title = $title;
-        $purse->owner_type = self::className();
-        $purse->owner_id = $this->getPrimaryKey(false);
-
-        $purse->save();
+        return Purse::create($this, $title);
     }
 
     protected function deletePurse()
