@@ -61,8 +61,8 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
     public static function getTypeValues()
     {
         return [
-            self::INCOMING => \Yii::t('yz/finance', 'Incoming transaction'),
-            self::OUTBOUND => \Yii::t('yz/finance', 'Outbound transaction'),
+            self::INCOMING => \Yii::t('omnilight/finance', 'Incoming transaction'),
+            self::OUTBOUND => \Yii::t('omnilight/finance', 'Outbound transaction'),
         ];
     }
 
@@ -101,18 +101,18 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
     public function attributeLabels()
     {
         return [
-            'id' => \Yii::t('yz/finance', 'ID'),
-            'purse_id' => \Yii::t('yz/finance', 'Purse ID'),
-            'type' => \Yii::t('yz/finance', 'Type'),
-            'amount' => \Yii::t('yz/finance', 'Amount'),
-            'partner_type' => \Yii::t('yz/finance', 'Partner Type'),
-            'partner_id' => \Yii::t('yz/finance', 'Partner ID'),
-            'title' => \Yii::t('yz/finance', 'Title'),
-            'comment' => \Yii::t('yz/finance', 'Comment'),
-            'created_at' => \Yii::t('yz/finance', 'Created On'),
-            'purse' => \Yii::t('yz/finance', 'Purse'),
-            'balance_before' => \Yii::t('yz/finance', 'Balance after'),
-            'balance_after' => \Yii::t('yz/finance', 'Balance before'),
+            'id' => \Yii::t('omnilight/finance', 'ID'),
+            'purse_id' => \Yii::t('omnilight/finance', 'Purse ID'),
+            'type' => \Yii::t('omnilight/finance', 'Type'),
+            'amount' => \Yii::t('omnilight/finance', 'Amount'),
+            'partner_type' => \Yii::t('omnilight/finance', 'Partner Type'),
+            'partner_id' => \Yii::t('omnilight/finance', 'Partner ID'),
+            'title' => \Yii::t('omnilight/finance', 'Title'),
+            'comment' => \Yii::t('omnilight/finance', 'Comment'),
+            'created_at' => \Yii::t('omnilight/finance', 'Created On'),
+            'purse' => \Yii::t('omnilight/finance', 'Purse'),
+            'balance_before' => \Yii::t('omnilight/finance', 'Balance after'),
+            'balance_after' => \Yii::t('omnilight/finance', 'Balance before'),
         ];
     }
 

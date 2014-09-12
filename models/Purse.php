@@ -42,7 +42,7 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      */
     public static function modelTitle()
     {
-        return \Yii::t('yz/finance', 'Purse');
+        return \Yii::t('omnilight/finance', 'Purse');
     }
 
     /**
@@ -51,7 +51,7 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      */
     public static function modelTitlePlural()
     {
-        return \Yii::t('yz/finance', 'Purses');
+        return \Yii::t('omnilight/finance', 'Purses');
     }
 
     /**
@@ -108,14 +108,14 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
     public function attributeLabels()
     {
         return [
-            'id' => \Yii::t('yz/finance', 'ID'),
-            'owner_type' => \Yii::t('yz/finance', 'Owner Type'),
-            'owner_id' => \Yii::t('yz/finance', 'Owner ID'),
-            'title' => \Yii::t('yz/finance', 'Title'),
-            'balance' => \Yii::t('yz/finance', 'Balance'),
-            'created_at' => \Yii::t('yz/finance', 'Created On'),
-            'updated_at' => \Yii::t('yz/finance', 'Updated On'),
-            'purseTransactions' => \Yii::t('yz/finance', 'Transactions'),
+            'id' => \Yii::t('omnilight/finance', 'ID'),
+            'owner_type' => \Yii::t('omnilight/finance', 'Owner Type'),
+            'owner_id' => \Yii::t('omnilight/finance', 'Owner ID'),
+            'title' => \Yii::t('omnilight/finance', 'Title'),
+            'balance' => \Yii::t('omnilight/finance', 'Balance'),
+            'created_at' => \Yii::t('omnilight/finance', 'Created On'),
+            'updated_at' => \Yii::t('omnilight/finance', 'Updated On'),
+            'purseTransactions' => \Yii::t('omnilight/finance', 'Transactions'),
         ];
     }
 

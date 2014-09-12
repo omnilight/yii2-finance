@@ -15,9 +15,9 @@ class Bootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $app->i18n->translations['yz/finance'] = [
+        $app->i18n->translations['omnilight/finance'] = [
             'class' => 'yii\i18n\PhpMessageSource',
-            'basePath' => '@yz/finance/messages',
+            'basePath' => '@omnilight/finance/messages',
             'sourceLanguage' => 'en-US',
         ];
     }
