@@ -65,16 +65,19 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
     }
 
     /**
-     * @param ActiveRecord $owner
+     * @param string $ownerType
+     * @param int $ownerId
      * @param string $title
-     * @return \yz\finance\models\Purse
+     * @internal param \yii\db\ActiveRecord $owner
+     * @return Purse
      */
-    public static function create($owner, $title)
+    public static function create($ownerType, $ownerId, $title)
     {
         $purse = new self;
         $purse->title = $title;
-        $purse->owner_type = $owner->className();
-        $purse->owner_id = $owner->getPrimaryKey();
+        $purse->owner_type = $ownerType;
+        $purse->owner_id = $ownerId;
+        $purse->balance = 0;
         $purse->save();
         return $purse;
     }
@@ -87,7 +90,6 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
         return [
             [['owner_id'], 'integer'],
             [['balance'], 'number'],
-            [['created_at', 'updated_at'], 'safe'],
             [['owner_type'], 'string', 'max' => 255],
             [['title'], 'string', 'max' => 128]
         ];

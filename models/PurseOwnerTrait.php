@@ -18,14 +18,6 @@ use yii\db\ActiveRecord;
  */
 trait PurseOwnerTrait
 {
-    protected function createPurse($title)
-    {
-        /**
-         * @var ActiveRecord $this
-         */
-        return Purse::create($this, $title);
-    }
-
     protected function deletePurse()
     {
         Purse::deleteAll("owner_id = :id and owner_type = :type", [
