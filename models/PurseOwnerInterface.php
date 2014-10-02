@@ -20,5 +20,5 @@ interface PurseOwnerInterface
 	 * @param int $id
 	 * @return $this
 	 */
-	public static function findById($id);
+	public static function findPurseOwnerById($id);
 } 
