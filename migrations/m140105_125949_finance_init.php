@@ -32,10 +32,10 @@ class m140105_125949_finance_init extends \yii\db\Migration
 			'created_at' => 'datetime',
 		], 'ENGINE=InnoDB CHARSET=utf8');
 
-		$this->createIndex('finance_transactions__partner','{{%finance_transactions}}','partner_type, partner_id');
+		$this->createIndex('type_id','{{%finance_transactions}}','partner_type, partner_id');
 
-		$this->createIndex('finance_transactions__purse_id','{{%finance_transactions}}','purse_id');
-		$this->addForeignKey('finance_transactions__purse_id','{{%finance_transactions}}','purse_id',
+		$this->createIndex('purse_id','{{%finance_transactions}}','purse_id');
+		$this->addForeignKey('{{%fk_finance_transaction_purse}}','{{%finance_transactions}}','purse_id',
 			'{{%finance_purses}}','id','CASCADE','CASCADE'
 		);
 
