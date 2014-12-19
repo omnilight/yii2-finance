@@ -68,7 +68,6 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      * @param string $ownerType
      * @param int $ownerId
      * @param string $title
-     * @internal param \yii\db\ActiveRecord $owner
      * @return Purse
      */
     public static function create($ownerType, $ownerId, $title)
