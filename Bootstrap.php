@@ -20,5 +20,7 @@ class Bootstrap implements BootstrapInterface
             'basePath' => '@omnilight/finance/messages',
             'sourceLanguage' => 'en-US',
         ];
+
+        \Yii::$app->params['yii.migrations'][] = '@omnilight/finance/migrations';
     }
 }
