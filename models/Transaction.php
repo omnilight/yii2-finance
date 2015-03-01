@@ -23,6 +23,7 @@ use yz\interfaces\ModelInfoInterface;
  * @property string $created_at
  *
  * @property Purse $purse
+ * @property TransactionPartnerInterface $partner
  */
 class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
 {
@@ -135,6 +136,17 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
     public function getPurse()
     {
         return $this->hasOne(Purse::className(), ['id' => 'purse_id']);
+    }
+
+    /**
+     * @return TransactionPartnerInterface
+     */
+    public function getPartner()
+    {
+        /** @var TransactionPartnerInterface $class */
+        $class = $this->partner_type;
+        $partner = $class::findById($this->partner_id);
+        return $partner;
     }
 
     public function beforeSave($insert)
