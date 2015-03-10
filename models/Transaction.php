@@ -44,7 +44,7 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
      */
     public static function modelTitle()
     {
-        return \Yii::t('yz/finance', 'Transaction');
+        return \Yii::t('omnilight/finance', 'Transaction');
     }
 
     /**
@@ -53,7 +53,7 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
      */
     public static function modelTitlePlural()
     {
-        return \Yii::t('yz/finance', 'Transactions');
+        return \Yii::t('omnilight/finance', 'Transactions');
     }
 
     /**
@@ -88,7 +88,7 @@ class Transaction extends \yz\db\ActiveRecord implements ModelInfoInterface
     public function validateAmount()
     {
         if ($this->isNewRecord && $this->purse && $this->getPurseNewBalance() < 0)
-            $this->addError('amount', \Yii::t('yz/finance', 'Outbound transaction amount should be less or equal to the purse\'s balance'));
+            $this->addError('amount', \Yii::t('omnilight/finance', 'Outbound transaction amount should be less or equal to the purse\'s balance'));
     }
 
     protected function getPurseNewBalance()
