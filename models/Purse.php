@@ -193,7 +193,7 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      */
     public function getTypeForTransaction()
     {
-        return \Yii::t('yz/finance', 'Purse');
+        return \Yii::t('omnilight/finance', 'Purse');
     }
 
     /**
