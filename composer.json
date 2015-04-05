@@ -12,8 +12,8 @@
     "type": "yii2-extension",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "dev-master",
-        "omnilight/yz2": "dev-master"
+        "yiisoft/yii2": "*",
+        "omnilight/yz2": "*"
     },
     "autoload": {
         "psr-4": { "omnilight\\finance\\": "" }
