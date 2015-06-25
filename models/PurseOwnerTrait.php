@@ -18,11 +18,16 @@ use yii\db\ActiveRecord;
  */
 trait PurseOwnerTrait
 {
+    protected static function purseOwnerType()
+    {
+        return self::class;
+    }
+
     protected function deletePurse()
     {
         Purse::deleteAll("owner_id = :id and owner_type = :type", [
             ':id' => $this->getPrimaryKey(false),
-            ':type' => self::className(),
+            ':type' => self::purseOwnerType(),
         ]);
     }
 
@@ -35,6 +40,6 @@ trait PurseOwnerTrait
          * @var ActiveRecord $this
          */
         return $this->hasOne(Purse::className(), ['owner_id' => 'id'])
-            ->onCondition('owner_type = :type', [':type' => self::className()]);
+            ->onCondition('owner_type = :type', [':type' => self::purseOwnerType()]);
     }
 }
