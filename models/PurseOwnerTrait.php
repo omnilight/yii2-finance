@@ -35,6 +35,6 @@ trait PurseOwnerTrait
          * @var ActiveRecord $this
          */
         return $this->hasOne(Purse::className(), ['owner_id' => 'id'])
-            ->where('owner_type = :type', [':type' => self::className()]);
+            ->onCondition('owner_type = :type', [':type' => self::className()]);
     }
 }
