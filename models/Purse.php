@@ -19,6 +19,7 @@ use yz\interfaces\ModelInfoInterface;
  * @property integer $balance
  * @property string $created_at
  * @property string $updated_at
+ * @property string $name
  *
  * @property Transaction[] $purseTransactions
  * @property PurseOwnerInterface $owner
@@ -61,19 +62,21 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
      */
     public static function findById($id)
     {
-        return self::find($id);
+        return self::findOne($id);
     }
 
     /**
      * @param string $ownerType
      * @param int $ownerId
      * @param string $title
+     * @param string $name
      * @return Purse
      */
-    public static function create($ownerType, $ownerId, $title)
+    public static function create($ownerType, $ownerId, $title = null, $name = null)
     {
         $purse = new self;
         $purse->title = $title;
+        $purse->name = $name;
         $purse->owner_type = $ownerType;
         $purse->owner_id = $ownerId;
         $purse->balance = 0;
@@ -99,13 +102,6 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
         ];
     }
 
-    public function scenarios()
-    {
-        return array_merge(parent::scenarios(), [
-
-        ]);
-    }
-
     /**
      * @inheritdoc
      */
@@ -120,6 +116,7 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
             'created_at' => \Yii::t('omnilight/finance', 'Created On'),
             'updated_at' => \Yii::t('omnilight/finance', 'Updated On'),
             'purseTransactions' => \Yii::t('omnilight/finance', 'Transactions'),
+            'name' => \Yii::t('omnilight/finance', 'Name'),
         ];
     }
 
