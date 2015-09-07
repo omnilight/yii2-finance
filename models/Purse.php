@@ -134,7 +134,7 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
     }
 
     /**
-     * @return \yii\db\ActiveQueryInterface
+     * @return \yii\db\ActiveQuery
      */
     public function getPurseTransactions()
     {
