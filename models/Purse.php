@@ -84,9 +84,18 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
         return $purse;
     }
 
-    public static function remove($ownerType, $ownerId)
+    /**
+     * @param string $ownerType
+     * @param string $ownerId
+     * @param string $name
+     */
+    public static function remove($ownerType, $ownerId, $name = null)
     {
-        self::deleteAll(['owner_type' => $ownerType, 'owner_id' => $ownerId]);
+        if ($name === null) {
+            self::deleteAll(['owner_type' => $ownerType, 'owner_id' => $ownerId]);
+        } else {
+            self::deleteAll(['owner_type' => $ownerType, 'owner_id' => $ownerId, 'name' => $name]);
+        }
     }
 
     /**
