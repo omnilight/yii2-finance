@@ -186,6 +186,8 @@ class Purse extends \yz\db\ActiveRecord implements ModelInfoInterface, Transacti
             return $transaction->save();
         }
 
+        $this->refresh();
+
         return true;
     }
 
